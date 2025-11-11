@@ -12,7 +12,6 @@ phases:
   pre_build:
     commands:
       - echo Running unit tests...
-      - cd src/lambda_function
       - python -m pytest
       - cd ../..
 
