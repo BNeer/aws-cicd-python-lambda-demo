@@ -102,7 +102,7 @@ Resources:
       Name: !Sub "${AWS::StackName}-build"
       Source:
         Type: CODEPIPELINE
-        BuildSpec: codebuild/buildspec.yml
+        BuildSpec: codebuild/buildspec.yaml
       Artifacts:
         Type: CODEPIPELINE
       Environment:
@@ -197,5 +197,5 @@ Resources:
                 ActionMode: CREATE_UPDATE
                 StackName: !Sub "${AWS::StackName}-lambda-stack"
                 TemplatePath: "BuildOutput::lambda-template.yaml"
-                Capabilities: CAPABILITY_IAM
+                Capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
                 RoleArn: !GetAtt CloudFormationRole.Arn
