@@ -8,8 +8,9 @@ Parameters:
     Description: S3 bucket where lambda zip is uploaded
   LambdaCodeKey:
     Type: String
-    Default: lambda/lambda_function.zip
-    Description: S3 key for lambda zip
+    Default: lambda/lambda_function-v2.zip
+    Description: S3 key for lambda zip (increment this for each new deploy)
+
 
 Resources:
   LambdaExecutionRole:

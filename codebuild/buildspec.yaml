@@ -22,7 +22,7 @@ phases:
       - cd build_lambda
       - zip -r ../lambda_function.zip .
       - cd ..
-      - aws s3 cp lambda_function.zip s3://python-cicd-artifacts-eu-west-1-123456/lambda/lambda_function.zip
+      - aws s3 cp lambda_function.zip s3://python-cicd-artifacts-eu-west-1-123456/lambda/lambda_function-v2.zip
       - echo Build phase done
 
 
