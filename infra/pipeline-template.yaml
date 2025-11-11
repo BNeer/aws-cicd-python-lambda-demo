@@ -33,28 +33,21 @@ Resources:
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
-              # allow listing the artifact bucket (this fixed your 403)
               - Effect: Allow
                 Action:
                   - s3:ListBucket
                 Resource: !Sub "arn:aws:s3:::${ArtifactBucketName}"
-
-              # allow getting/putting artifacts
               - Effect: Allow
                 Action:
                   - s3:GetObject
                   - s3:GetObjectVersion
                   - s3:PutObject
                 Resource: !Sub "arn:aws:s3:::${ArtifactBucketName}/*"
-
-              # allow pipeline to trigger CodeBuild
               - Effect: Allow
                 Action:
                   - codebuild:BatchGetBuilds
                   - codebuild:StartBuild
                 Resource: "*"
-
-              # allow pipeline to run CFN deploy actions
               - Effect: Allow
                 Action:
                   - cloudformation:CreateStack
@@ -65,8 +58,6 @@ Resources:
                   - cloudformation:GetTemplate
                   - cloudformation:ValidateTemplate
                 Resource: "*"
-
-              # allow passing the CFN exec role used in Deploy stage
               - Effect: Allow
                 Action:
                   - iam:PassRole
@@ -99,6 +90,11 @@ Resources:
                   - s3:PutObject
                   - s3:GetBucketLocation
                 Resource: "*"
+              # allow buildspec to do aws s3 cp ...
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                Resource: "arn:aws:s3:::python-cicd-artifacts-eu-west-1-123456/*"
 
   CodeBuildProject:
     Type: AWS::CodeBuild::Project
@@ -150,10 +146,10 @@ Resources:
     Type: AWS::CodePipeline::Pipeline
     Properties:
       Name: !Sub "${AWS::StackName}-pipeline"
-      RoleArn: arn:aws:iam::198663520156:role/python-cicd-demo-PipelineRole-v2
+      RoleArn: !GetAtt PipelineRole.Arn
       ArtifactStore:
         Type: S3
-        Location: !Ref ArtifactBucketName   # existing bucket
+        Location: !Ref ArtifactBucketName
       Stages:
         - Name: Source
           Actions:

@@ -1,35 +1,26 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Lambda function deployed by CodePipeline
+
+Parameters:
+  LambdaCodeBucket:
+    Type: String
+    Default: python-cicd-artifacts-eu-west-1-123456
+    Description: S3 bucket where lambda zip is uploaded
+  LambdaCodeKey:
+    Type: String
+    Default: lambda/lambda_function.zip
+    Description: S3 key for lambda zip
+
 Resources:
-  MyLambdaFunction:
+  DemoLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: MyLambdaFunction
-      Handler: app.lambda_handler
-      Runtime: python3.12
+      FunctionName: demo-codepipeline-lambda
+      Runtime: python3.9
+      Handler: app.handler
+      Role: arn:aws:iam::198663520156:role/lambda-basic-execution-role
       Code:
         S3Bucket: !Ref LambdaCodeBucket
-        S3Key: !Sub "${LambdaCodeKey}"
-      Role: !GetAtt LambdaExecutionRole.Arn
-      Environment:
-        KEY: VALUE
-
-  LambdaExecutionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: lambda.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: LambdaBasicExecution
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource: arn:aws:logs:*:*:*
+        S3Key: !Ref LambdaCodeKey
+      Timeout: 30
+      MemorySize: 128

@@ -17,8 +17,10 @@ phases:
   build:
     commands:
       - echo Building the Lambda package...
-      # zip the folder without cd
+      # zip the lambda source
       - zip -r lambda_function.zip src/lambda_function
+      # upload to a FIXED S3 location so CFN can find it
+      - aws s3 cp lambda_function.zip s3://python-cicd-artifacts-eu-west-1-123456/lambda/lambda_function.zip
       - echo Build phase done
 
   post_build:
