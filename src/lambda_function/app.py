@@ -3,3 +3,5 @@ def lambda_handler(event, context):
         'statusCode': 200,
         'body': 'Hello, World! This is a demo Lambda function.'
     }
+
+handler = lambda_handler

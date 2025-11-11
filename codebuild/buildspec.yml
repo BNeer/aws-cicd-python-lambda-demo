@@ -7,14 +7,29 @@ phases:
     commands:
       - echo Installing dependencies...
       - pip install -r src/lambda_function/requirements.txt -t src/lambda_function/
+      - pip install pytest
+
   pre_build:
     commands:
-      - echo Pre-build phase...
+      - echo Running unit tests...
+      - cd src/lambda_function
+      - python -m pytest
+      - cd ../..
+
   build:
     commands:
       - echo Building the Lambda package...
       - cd src/lambda_function
       - zip -r ../lambda_function.zip .
+      - cd ../..
+      - echo Build phase done
+
   post_build:
     commands:
       - echo Build completed on `date`
+
+artifacts:
+  files:
+    - lambda_function.zip
+    - infra/lambda-template.yaml
+  discard-paths: yes
