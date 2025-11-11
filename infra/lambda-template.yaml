@@ -12,13 +12,28 @@ Parameters:
     Description: S3 key for lambda zip
 
 Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: demo-codepipeline-lambda-exec
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        # basic logging to CloudWatch
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
   DemoLambdaFunction:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: demo-codepipeline-lambda
       Runtime: python3.9
       Handler: app.handler
-      Role: arn:aws:iam::198663520156:role/lambda-basic-execution-role
+      Role: !GetAtt LambdaExecutionRole.Arn
       Code:
         S3Bucket: !Ref LambdaCodeBucket
         S3Key: !Ref LambdaCodeKey
