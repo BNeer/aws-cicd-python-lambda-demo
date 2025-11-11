@@ -13,14 +13,12 @@ phases:
     commands:
       - echo Running unit tests...
       - python -m pytest
-      - cd ../..
 
   build:
     commands:
       - echo Building the Lambda package...
-      - cd src/lambda_function
-      - zip -r ../lambda_function.zip .
-      - cd ../..
+      # zip the folder without cd
+      - zip -r lambda_function.zip src/lambda_function
       - echo Build phase done
 
   post_build:
