@@ -2,7 +2,7 @@ version: 0.2
 
 env:
   exported-variables:
-    - LAMBDA_CODE_VERSION        # <-- REQUIRED so CodePipeline can read it
+    - LAMBDA_CODE_VERSION        # <-- It is required so CodePipeline can read it
 
 phases:
   install:
@@ -24,7 +24,7 @@ phases:
       - cd build_lambda
       - zip -r ../lambda_function.zip .
       - cd ..
-      # Upload AND capture VersionId (this only works if bucket versioning is ENABLED)
+      # Upload AND capture VersionId (Works when bucket versioning is ENABLED)
       - |
         VERSION_ID=$(aws s3api put-object \
           --bucket python-cicd-artifacts-eu-west-1-123456 \
@@ -36,7 +36,7 @@ phases:
           echo "ERROR: S3 VersionId is empty. Is bucket versioning ENABLED?"
           exit 1
         fi
-        # Write into CodeBuild’s env var file (this is the supported way)
+        # Write into CodeBuild’s env var file
         export LAMBDA_CODE_VERSION="$VERSION_ID"
         echo "Exported LAMBDA_CODE_VERSION=$LAMBDA_CODE_VERSION"
       - echo "Build phase done"

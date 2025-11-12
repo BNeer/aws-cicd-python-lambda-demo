@@ -15,7 +15,7 @@ aws-cicd-python-lambda-demo
 ├── infra
 │   ├── lambda-template.yaml       # CloudFormation template for Lambda
 │   ├── pipeline-template.yaml      # CloudFormation template for CodePipeline
-│   └── codebuild-role.yaml        # IAM role for CodeBuild
+│ 
 ├── codebuild
 │   └── buildspec.yml             # Build specification for CodeBuild
 ├── scripts
@@ -34,23 +34,16 @@ aws-cicd-python-lambda-demo
    ```
 
 2. **Install Dependencies**
-   Navigate to the `src/lambda_function` directory and install the required Python packages:
+   Navigate to the `src/lambda_function` directory and install the required Python packages if you want to test it locally on virtual environemtn:
    ```
    cd src/lambda_function
    pip install -r requirements.txt
    ```
 
-3. **Package the Lambda Function**
-   Use the provided script to package the Lambda function and its dependencies:
-   ```
-   cd ../../scripts
-   ./package_lambda.sh
-   ```
+3. **Deploy the Infrastructure**
+   Use the pipeline-template.yaml in the `infra` directory to deploy the CI/CD pipeline.
 
-4. **Deploy the Infrastructure**
-   Use the CloudFormation templates in the `infra` directory to deploy the Lambda function and the CI/CD pipeline.
-
-5. **Trigger the Pipeline**
+4. **Trigger the Pipeline**
    Make changes to the Lambda function code and push to the repository to trigger the CodePipeline automatically.
 
 ## Usage
