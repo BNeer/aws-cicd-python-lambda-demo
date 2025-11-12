@@ -37,8 +37,8 @@ phases:
           exit 1
         fi
         # Write into CodeBuild’s env var file (this is the supported way)
-        echo "LAMBDA_CODE_VERSION=$VERSION_ID" >> "$CODEBUILD_ENV_VAR_FILE"
-        echo "Wrote LAMBDA_CODE_VERSION to \$CODEBUILD_ENV_VAR_FILE"
+        export LAMBDA_CODE_VERSION="$VERSION_ID"
+        echo "Exported LAMBDA_CODE_VERSION=$LAMBDA_CODE_VERSION"
       - echo "Build phase done"
 
 artifacts:
