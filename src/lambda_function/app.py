@@ -35,7 +35,7 @@ def lambda_handler(event, context):
         }
 
     except ZeroDivisionError:
-        error_msg = "Error: Division by zero is not allowed."
+        error_msg = "Error: Division by zero is not allowed........"
         logger.error(error_msg)
         return {
             "statusCode": 400,
