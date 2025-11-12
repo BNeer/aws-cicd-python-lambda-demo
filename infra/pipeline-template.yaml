@@ -182,6 +182,7 @@ Resources:
                 - Name: BuildOutput
               Configuration:
                 ProjectName: !Ref CodeBuildProject
+              Namespace: BuildVars
 
         - Name: Deploy
           Actions:
@@ -203,5 +204,5 @@ Resources:
                   {
                     "LambdaCodeBucket": "python-cicd-artifacts-eu-west-1-123456",
                     "LambdaCodeKey": "lambda/lambda_function.zip",
-                    "LambdaCodeVersion": "#{BuildAction.LAMBDA_CODE_VERSION}"
+                    "LambdaCodeVersion": "#{BuildVars.LAMBDA_CODE_VERSION}"
                   }
