@@ -34,7 +34,8 @@ phases:
           --query VersionId --output text)
         echo "VERSION_ID=$VERSION_ID"
         # Export for CodePipeline
-        export LAMBDA_CODE_VERSION=$VERSION_ID
+        export LAMBDA_CODE_VERSION="$VERSION_ID"
+        echo "LAMBDA_CODE_VERSION=$LAMBDA_CODE_VERSION"
       - echo "Build phase done"
 
   post_build:
