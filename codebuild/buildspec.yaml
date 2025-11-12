@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  exported-variables:
+    - LAMBDA_CODE_VERSION
+
 phases:
   install:
     runtime-versions:
@@ -22,13 +26,20 @@ phases:
       - cd build_lambda
       - zip -r ../lambda_function.zip .
       - cd ..
-      - aws s3 cp lambda_function.zip s3://python-cicd-artifacts-eu-west-1-123456/lambda/lambda_function-v2.zip
-      - echo Build phase done
-
+      - |
+        VERSION_ID=$(aws s3api put-object \
+          --bucket python-cicd-artifacts-eu-west-1-123456 \
+          --key lambda/lambda_function.zip \
+          --body lambda_function.zip \
+          --query VersionId --output text)
+        echo "VERSION_ID=$VERSION_ID"
+        # Export for CodePipeline
+        export LAMBDA_CODE_VERSION=$VERSION_ID
+      - echo "Build phase done"
 
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo "Build completed on $(date)"
 
 artifacts:
   files:

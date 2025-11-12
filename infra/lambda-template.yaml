@@ -8,9 +8,11 @@ Parameters:
     Description: S3 bucket where lambda zip is uploaded
   LambdaCodeKey:
     Type: String
-    Default: lambda/lambda_function-v2.zip
+    Default: lambda/lambda_function.zip
     Description: S3 key for lambda zip (increment this for each new deploy)
-
+  LambdaCodeVersion:
+    Type: String
+    Description: S3 object VersionId for the Lambda zip
 
 Resources:
   LambdaExecutionRole:
@@ -38,5 +40,17 @@ Resources:
       Code:
         S3Bucket: !Ref LambdaCodeBucket
         S3Key: !Ref LambdaCodeKey
+        S3ObjectVersion: !Ref LambdaCodeVersion
       Timeout: 30
       MemorySize: 128
+
+Outputs:
+  LambdaFunctionName:
+    Description: Name of the deployed Lambda function
+    Value: !Ref DemoLambdaFunction
+
+  LambdaFunctionArn:
+    Description: ARN of the deployed Lambda function
+    Value: !GetAtt DemoLambdaFunction.Arn
+    Export:
+      Name: demo-codepipeline-lambda-arn

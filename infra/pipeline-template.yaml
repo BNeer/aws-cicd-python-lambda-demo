@@ -199,3 +199,9 @@ Resources:
                 TemplatePath: "BuildOutput::lambda-template.yaml"
                 Capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM
                 RoleArn: !GetAtt CloudFormationRole.Arn
+                ParameterOverrides: !Sub |
+                  {
+                    "LambdaCodeBucket": "python-cicd-artifacts-eu-west-1-123456",
+                    "LambdaCodeKey": "lambda/lambda_function.zip",
+                    "LambdaCodeVersion": "#{BuildAction.LAMBDA_CODE_VERSION}"
+                  }
