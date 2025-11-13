@@ -40,16 +40,29 @@ aws-cicd-python-lambda-demo
    pip install -r requirements.txt
    ```
 
-3. **Deploy the Infrastructure**
+3. **Connection to GitHub for Source stage in Pipeline**
+1. Open your GitHub account.
+2. In the top-right corner, click your profile picture → Settings → Developer settings.
+3. Go to Personal access tokens → Tokens (classic) → Generate new token → Generate new token (classic).
+4. Give the token a meaningful Note (e.g., codepipeline-github-token).
+5. Set Expiration to No expiration (or if you wish to give an expiry date, select that one).
+6. Under Select scopes, choose:
+        repo
+        admin:repo_hook
+7. Click "Generate token"
+8. Copy and save the generated token securely (you won’t be able to view it again).
+9. In your AWS account, open AWS Secrets Manager → Store a new secret → Other type of secret.
+10. Add a key named token, and paste the GitHub token as the value.
+11. In the next window, under “Secret name”, provide a clear AWS-specific name such as     
+    codepipeline-github-access-token, then click Next → Next → Store 
+
+4. **Deploy the Infrastructure**
    Use the pipeline-template.yaml in the `infra` directory to deploy the CI/CD pipeline.
 
-4. **Trigger the Pipeline**
+5. **Trigger the Pipeline**
    Make changes to the Lambda function code and push to the repository to trigger the CodePipeline automatically.
 
 ## Usage
 
 Once deployed, the Lambda function can be invoked through AWS services or directly via the AWS Management Console. The CI/CD pipeline will automatically build and deploy changes made to the Lambda function.
 
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
